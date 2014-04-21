@@ -8,10 +8,29 @@
     "128": "icons/icon-128.png",
     "64": "icons/icon-64.png",
     "32": "icons/icon-32.png",
-    "19": "icons/icon-19.png",
-  }
+    "19": "icons/icon-19.png"
+  },
+  "permissions": [
+    "webNavigation",
+    "activeTab"
+  ],
+  "incognito": "spanning",
   "page_action": {
-    "default_icon": "icons/icon-19.png",
+    "default_icon": {
+      "19": "icons/icon-19.png",
+      "38": "icons/icon-64.png"
+    },
+    "default_title": "Mozu Zufile",
     "default_popup": "popup.html"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["detect-mozu.js"]
+    }
+  ],
+  "background": {
+    "scripts": ["zuphile-listener.js"],
+    "persistent": false
   }
 }
