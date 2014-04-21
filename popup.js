@@ -23,6 +23,9 @@
 
     function collectMozuData(data) {
       setAttr("Site Name", data.siteContext.generalSettings.websiteName);
+      setAttr("CDN Enabled?", data.cdnEnabled);
+      setAttr("Environment", data.environment || "(unknown when CDN disabled)");
+      setAttr("Pod", data.pod || "(unknown when CDN disabled)");
       setAttr("Tenant Id", data.apiContext.headers['x-vol-tenant']);
       setAttr("Site Id", data.apiContext.headers['x-vol-site']);
       setAttr("Theme Id", data.siteContext.themeId);

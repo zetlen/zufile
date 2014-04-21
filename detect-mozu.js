@@ -1,4 +1,13 @@
 (function() {
+
+function extend(obj1, obj2) {
+  for (var k in obj2) {
+    if (obj2.hasOwnProperty(k)) {
+      obj1[k] = obj2[k];
+    }
+  }
+}
+
 var data = {},
     dataLoaded,
     apiContext,
@@ -41,16 +50,54 @@ if (apiContextElm) {
   }
 }
 
+
+var ENVS = {
+  "mozu": "Production",
+  "mozu-qa": "QA"
+},
+PODS = {
+  "cdn-sb": "Sandbox",
+  "cdn-tp1": "TP1",
+  "cdn-tp2": "TP2",
+  "cdn-origin-tp1": "TP1",
+  "cdn-origin-tp2": "TP2",
+  "cdn-origin-sb": "Sandbox"
+};
+
+function getEnvironmentData(cdnPrefix) {
+  var data = {
+    cdnEnabled: !!cdnPrefix
+  },
+  matchColl, match;
+
+  if (cdnPrefix) {
+    var matchColl = cdnPrefix.match(/\/\/([^\/]+)\.com\/.*/);
+    if (matchColl && matchColl[1]) {
+      match = matchColl[1].split('.');
+      data.environment = ENVS[match.pop()];
+      data.pod = PODS[match.shift()];
+    }
+  }
+
+  return data;
+}
+
 function sendMozuInfo() {
   if (!dataLoaded) {
     var x = new XMLHttpRequest();
     x.onload = function() {
       api.all(api.get('products'), api.get('categories')).then(function(arr) {
-        data.pageContext = pageContext;
-        data.apiContext = apiContext;
-        data.siteContext = JSON.parse(x.responseText).locals.siteContext;
-        data.numProducts = arr[0].data.totalCount;
-        data.numCategories = arr[1].data.totalCount;
+        
+        extend(data, {
+          pageContext: pageContext,
+          apiContext: apiContext,
+          siteContext: JSON.parse(x.responseText).locals.siteContext,
+          numProducts: arr[0].data.totalCount,
+          numCategories: arr[1].data.totalCount
+        });
+        
+        extend(data, getEnvironmentData(data.siteContext.cdnPrefix));
+
         dataLoaded = true;
         cb(data);
       });
