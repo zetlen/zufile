@@ -12,7 +12,9 @@
   },
   "permissions": [
     "webNavigation",
-    "activeTab"
+    "activeTab",
+    "tabs",
+    "<all_urls>"
   ],
   "incognito": "spanning",
   "page_action": {
