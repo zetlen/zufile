@@ -3,11 +3,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
   if (request === "sdkplease") {
     chrome.tabs.executeScript(sender.tab.id, {
       file: 'mozu-javascript-sdk-min.js'
-    }, function(script) {
-      console.log(this, arguments);
-      sendResponse(script);
-
-    });
+    }, sendResponse);
     return true;
   }
 })

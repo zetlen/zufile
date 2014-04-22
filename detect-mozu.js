@@ -86,7 +86,7 @@ function sendMozuInfo() {
   if (!dataLoaded) {
     var x = new XMLHttpRequest();
     x.onload = function() {
-      api.all(api.get('products'), api.get('categories')).then(function(arr) {
+      api.all(api.get('products', { pageSize: 1}), api.get('categories', { pageSize: 1 })).then(function(arr) {
         
         extend(data, {
           pageContext: pageContext,
