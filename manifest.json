@@ -3,7 +3,7 @@
 
   "name": "Zufile",
   "description": "Displays useful information about the current Mozu site.",
-  "version": "0.1.0",
+  "version": "0.2.1",
   "icons": {
     "128": "icons/icon-128.png",
     "64": "icons/icon-64.png",
@@ -32,7 +32,6 @@
     }
   ],
   "background": {
-    "scripts": ["zuphile-listener.js"],
-    "persistent": false
+    "scripts": ["zufile-listener.js"]
   }
 }
